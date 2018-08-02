@@ -4,24 +4,19 @@
 using namespace std;
 
 void PrintIntro();
-string GetGuessAndPrint();
+void PlayGame();
+string GetGuess();
 
 
-int main() {
+int main()
+{
 	PrintIntro();
-
-	//loop  for number of guesses
-	constexpr int NUMBER_TURNS = 5;
-	for (int Count = 1; Count <= NUMBER_TURNS; Count++) {
-		GetGuessAndPrint();
-		cout << endl;
-	}
-
-	
-	return 0;
+	PlayGame();
+	return 0; //exit application
 }
 
-void PrintIntro() {
+void PrintIntro()
+{
 	//introduce the game
 	constexpr int WORD_LENGTH = 5;
 	cout << "Welcome to Bulls and Cows, a fun word game.\n";
@@ -30,12 +25,27 @@ void PrintIntro() {
 	cout << endl;
 	return;
 }
-string GetGuessAndPrint() {
+
+void PlayGame()
+{
+	//loop  for number of guesses
+	constexpr int NUMBER_TURNS = 5;
+	for (int Count = 1; Count <= NUMBER_TURNS; Count++)
+	{
+		string Guess = GetGuess();
+		// print the guess back
+		cout << "Your guess was: " << Guess << endl;
+		cout << endl;
+	}
+}
+
+string GetGuess() 
+{
 	//get a guess from the user
 	cout << "Enter your guess: ";
 	string Guess = "";
 	getline(cin, Guess);
-	// print the guess back
-	cout << "Your guess was: " << Guess << endl;
 	return Guess;
 }
+
+
