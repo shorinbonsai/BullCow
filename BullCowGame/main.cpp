@@ -44,23 +44,22 @@ void PlayGame()
 	int32 MaxTries = BCGame.GetMaxTries();
 	
 	//loop  for number of guesses
-	//TODO change from FOR to WHILE loop once we are validating tries
-	for (int32 Count = 1; Count <= MaxTries; Count++)
+	for (int32 Count = 1; Count <= MaxTries; Count++)	//TODO change from FOR to WHILE loop
 	{
-		FText Guess = GetGuess();  // TODO make loop checking valid guesses
+		FText Guess = GetGuess();  
+		EGuessStatus Status = BCGame.IsGuessValid(Guess);
 
 		//submit valid guess to the game and recieve counts
 		FBullCowCount BullCowCount =  BCGame.SubmitGuess(Guess);
 		//print cumber of bulls and cows
 		std::cout << "Bulls = " << BullCowCount.Bulls;
 		std::cout << ". Cows = " << BullCowCount.Cows << std::endl;
-
 		std::cout << std::endl;
 	}
 	//  TODO add a game summary at end
 }
 
-FText GetGuess() 
+FText GetGuess()  // TODO chang to GetValidGuess
 {
 	int32 CurrentTry = BCGame.GetCurrentTry();
 
