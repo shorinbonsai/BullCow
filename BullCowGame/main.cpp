@@ -12,7 +12,7 @@ using int32 = int;
 
 void PrintIntro();
 void PlayGame();
-FText GetGuess();
+FText GetValidGuess();
 bool AskToPlayAgain();
 
 FBullCowGame BCGame;
@@ -46,28 +46,44 @@ void PlayGame()
 	//loop  for number of guesses
 	for (int32 Count = 1; Count <= MaxTries; Count++)	//TODO change from FOR to WHILE loop
 	{
-		FText Guess = GetGuess();  
-		EGuessStatus Status = BCGame.IsGuessValid(Guess);
-
+		FText Guess = GetValidGuess();  
+		
 		//submit valid guess to the game and recieve counts
 		FBullCowCount BullCowCount =  BCGame.SubmitGuess(Guess);
-		//print cumber of bulls and cows
 		std::cout << "Bulls = " << BullCowCount.Bulls;
-		std::cout << ". Cows = " << BullCowCount.Cows << std::endl;
-		std::cout << std::endl;
+		std::cout << ". Cows = " << BullCowCount.Cows << "\n\n";
 	}
 	//  TODO add a game summary at end
 }
 
-FText GetGuess()  // TODO chang to GetValidGuess
+//loop continuously until the user gives a valid guess
+FText GetValidGuess()  
 {
-	int32 CurrentTry = BCGame.GetCurrentTry();
+	EGuessStatus Status = EGuessStatus::Invalid_Status;
+	do {
+		//get a guess from the user
+		int32 CurrentTry = BCGame.GetCurrentTry();
+		std::cout << "Try " << CurrentTry << ". Enter your guess: ";
+		FText Guess = "";
+		std::getline(std::cin, Guess);
 
-	//get a guess from the user
-	std::cout <<"Try " <<CurrentTry  << ". Enter your guess: ";
-	FText Guess = "";
-	std::getline(std::cin, Guess);
-	return Guess;
+		Status = BCGame.IsGuessValid(Guess);
+		switch (Status)
+		{
+		case EGuessStatus::Wrong_Length:
+			std::cout << "Please Enter a " << BCGame.GetHiddenWordLength() << " letter word.\n";
+			break;
+		case EGuessStatus::Incorrect_Case:
+			std::cout << "Please Enter word using only lower case.\n";
+			break;
+		case EGuessStatus::Not_Isogram:
+			std::cout << "Please try again, Remember we're looking for an isogram so no repeating letters!\n";
+			break;
+		default:
+			return Guess;
+		}
+		std::cout << std::endl;
+	} while (Status != EGuessStatus::OK);  //keep looping until valid guess
 }
 
 bool AskToPlayAgain()
