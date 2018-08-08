@@ -4,43 +4,43 @@
 using FString = std::string;
 using int32 = int;
 
-//all values initialised to zero
+// all values intialised to zero
 struct FBullCowCount
 {
 	int32 Bulls = 0;
 	int32 Cows = 0;
 };
 
-enum class EGuessStatus 
+
+enum class EGuessStatus
 {
 	Invalid_Status,
 	OK,
 	Not_Isogram,
 	Wrong_Length,
-	Incorrect_Case
+	Not_Lowercase
 };
 
 
 class FBullCowGame
 {
 public:
-	FBullCowGame(); //constructor
+	FBullCowGame(); // constructor
 
 	int32 GetMaxTries() const;
 	int32 GetCurrentTry() const;
 	int32 GetHiddenWordLength() const;
+	bool IsGameWon() const;
+	EGuessStatus CheckGuessValidity(FString) const;
 
-	bool IsGameWon(FString) const;
-	EGuessStatus IsGuessValid(FString) const;  // TODO make a more rich return value
+	void Reset(); // TODO make a more rich return value.
+	FBullCowCount SubmitValidGuess(FString);
 
-	void Reset();  // TODO make a more rich return value
-
-	FBullCowCount SubmitGuess(FString);
-
-
+// ^^ Please try and ignore this and focus on the interface above ^^
 private:
-	//see constructor for initialisations
+	// see constructor for initialisation
 	int32 MyCurrentTry;
 	int32 MyMaxTries;
 	FString MyHiddenWord;
+	bool bGameIsWon;
 };
