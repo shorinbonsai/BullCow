@@ -2,8 +2,9 @@
 
 #include "FBullCowGame.h"
 #include <map>
-#define TMap std::map
 
+//making unreal friendly
+#define TMap std::map
 using int32 = int;
 
 FBullCowGame::FBullCowGame() { Reset(); }  //default constructor
